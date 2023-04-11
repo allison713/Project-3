@@ -18,3 +18,4 @@ Bar chart with classifications of UFOs
 
 JS Library we may use:
 jQuery - HTML manipulation
+chartJs - slider?
