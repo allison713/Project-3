@@ -1,8 +1,20 @@
 Topic:
+UFO sightings in USA(or all countries? Only includes European and Australia)
+Ties in with major topic - astrophysics
 
+Question: 
+Are there locations where more sightings occur than others?
+Has there been a change in UFO sighting quantities over time?
+Is there a change in the classifications of UFOs over time/ in different locations?
 
 Data Source:
-
+https://www.kaggle.com/datasets/NUFORC/ufo-sightings
+Source of this kaggle database: https://nuforc.org/about-us/
 
 Webpage organization: 
+Heat Map with options to change year and/or classification of UFO.
+Line graphs with amount of sightings per year - could be split up by type of sighting, drop down menu?
+Bar chart with classifications of UFOs
 
+JS Library we may use:
+jQuery - HTML manipulation
