@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, func
 from flask import Flask, jsonify
 import psycopg2
 import json
-import  pprint
+import  sys
 
 app = Flask(__name__)
 
@@ -26,13 +26,15 @@ def get_db_connection():
 def index():
     return (
         f"Available Routes:<br/>"
-        f"/ufo_comments<br/>"
-        f"/ufo_cleaned<br/>"
-        f"/ufo_relatives<br/>"
+        f"/Ufo_Comments<br/>"
+        f"/Ufo_Cleaned<br/>"
+        f"/Ufo_Relatives<br/>"
+        f"/Ufo_Shapes<br/>"
+        f"/Ufo_Mapping<br/>"
     )
 
 
-@app.route("/ufo_comments")
+@app.route("/Ufo_Comments")
 def comments():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -40,42 +42,50 @@ def comments():
     comments = cur.fetchall()
     #cur.close()
     conn.close()
-    return json.dumps(comments, default=str)
+    
+    #res_dct = {comments[i]: comments[i + 1] for i in range(0, len(comments)-1)}
+    
+    #return json.dumps(res_dct, default=str, indent=4) 
+    #json.dumps( [dict(x) for x in comments] ) 
+    return json.dumps(comments, default=str, indent=4)
 
-@app.route("/ufo_relatives")
+@app.route("/Ufo_Relatives")
 def relatives():
-    relations=['aunt','baby','babies','brother','brothers','boyfriend','bride','brother','cousin',
-           'dad','daughter','daughters','father','father-in-law','fiancé','fiancée',
-            'friends','friend','girlfriend','godchild','godfather','godmother',
-            'grandchild,','grandchildren','granddaughter','grandfather,','granddad,',
-            'grandpa','grandmother','grandma','grandson','great-grandparents',
-            'groom','half-brother','husband','mother','mother-in-law','mum,','mummy,',
-            'mom','nephew','nephews','niece','nieces','parent','parents','sister','sisters','son','sons','stepbrother',
-            'twin','twin-brother','uncle','wife']
+    
+    relations=['aunts','baby','babies','boyfriend','bride','brothers','cousins','dad','daughters',
+            'father','father-in-law','fiancé','friends','girlfriend','grandchild,','grandchildren',
+            'granddaughters','grandfather,','grandpa','grandmother','grandma','grandsons','groom',
+            'husband','mother','mother-in-law','mum,','mummy,','mom','nephews','nieces','parents',
+            'sisters','sons','twins','uncles','wife']
     mentions=[]
+    
     conn = get_db_connection()
-    #cur = conn.cursor()
-    sql_query = pd.read_sql_query ('''SELECT * FROM ufo_comments''', conn)
+ 
+    sql_query = pd.read_sql_query ('''SELECT * FROM ufo_comments''',conn)
     df = pd.DataFrame(sql_query, columns = ['comments'])
-    r_mentions={relation:"" for relation in relations}
+    conn.close()
+    mentions={relation:"" for relation in relations}
     
     for relation in relations:
-        r_mentions[relation]=len(df[df['comments'].str.contains(relation)])
+        p = relation + "?"
+        mentions[relation]=len(df[df['comments'].str.contains(p)])
 
-    return r_mentions     #json.dumps(mentions, default=str)
+    return json.dumps(mentions, default=str, indent=4)
  
+@app.route("/Ufo_Shapes")
+def cleaned():
+    conn = get_db_connection()
+    
+    sql_query = pd.read_sql_query (
+            '''SELECT shape, COUNT(shape), date_trunc('year', date_ocurrence) AS year FROM ufo_sightenings GROUP BY shape , year ORDER BY year;''',conn)
+    shapes_df = pd.DataFrame(sql_query, columns = ['shape','year'])
+    conn.close()
+    return json.dumps(shapes_df,  default=str)
 
-"""  
-anadian_cities = session.query(Sunshine).
-    filter_by(Country='Canada').count()
 
-over_3700_hours_count = session.query(Sunshine).\
-    filter(Sunshine.Year >= 3700).count()
-
-
-
-
-   total_count = session.query(Sunshine).distinct().count() 
+if __name__ == '__main__':
+    app.run(debug=True)
+"""
 
 @app.route("/ufo_cleaned")
 def cleaned():
