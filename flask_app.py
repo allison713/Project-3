@@ -78,7 +78,7 @@ def cleaned():
     
     sql_query = pd.read_sql_query (
             '''SELECT shape, COUNT(shape), date_trunc('year', date_ocurrence) AS year FROM ufo_sightenings GROUP BY shape , year ORDER BY year;''',conn)
-    shapes_df = pd.DataFrame(sql_query, columns = ['shape','year'])
+    shapes_df = pd.DataFrame(sql_query, columns = ['shape', 'count','year'])
     conn.close()
     return json.dumps(shapes_df,  default=str)
 
