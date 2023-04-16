@@ -1,5 +1,5 @@
 // json url
-const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
+const url = "https://raw.githubusercontent.com/Alejandro-Delacruz/store-all-data-for-p3/main/shape_metadata.json"
 
 // initialize function to pull ID numbers
 function main() {
@@ -22,7 +22,7 @@ function main() {
 function demographicInfo(sample) {
     var demo = d3.select("#sample-metadata");
     d3.json(url).then(function (data) {
-        var metaData = data.metadata;
+        var metaData = data.matedata;
         var metaDataSample = metaData.filter(row => row.id == sample);
         demo.selectAll("p").remove();
         metaDataSample.forEach((row) => {
@@ -40,89 +40,66 @@ function demographicInfo(sample) {
 function charts(sample) {
     d3.json(url).then(function (data) {
         // variables for charts
-        var samplesComplete = data.samples;
+        var samplesComplete = data.sample;
         var sampleInfo = samplesComplete.filter(row => row.id == sample);
-        var sampleValues = sampleInfo[0].sample_values;
-        var sampleValuesSlice = sampleValues.slice(0,10).reverse();
-        var otuIds = sampleInfo[0].otu_ids;
-        var otuIdsSlice = otuIds.slice(0,10).reverse();
-        var otuLabels = sampleInfo[0].otu_labels;
-        var otuLabelsSlice = otuLabels.slice(0,10).reverse();
-        var metaData = data.metadata;
-        var metaDataSample = metaData.filter(row => row.id == sample);
-        var wash = metaDataSample[0].wfreq;
+        var sampleValues = sampleInfo[0].count;
+        var otuIds = sampleInfo[0].state_name;
+
+        var sampleshape = data.shape_sample;
+        var sampleInfo2 = sampleshape.filter(row => row.id == sample);
+        var sampleValues2 = sampleInfo2[0].count;
+        var otuIds2 = sampleInfo2[0].state_name;
 
         //----------------------------------------------
         // Building a bar chart
         //----------------------------------------------//
         var bardata = {
-            x: sampleValuesSlice,
-            y: otuIdsSlice.map(item => `OTU ${item}`),
+            y: sampleValues,
+            x: otuIds,
             type: "bar",
-            orientation: "h",
-            text: otuLabelsSlice,
+            orientation: "v",
         };
         var data = [bardata];
         // var barlayout = { height: 400, margin: { t: 5, b: 0 }};
-        var bartitle={title:"Top 10 OTUs"};
+        var bartitle={title:"Number of UFO Observations by State"};
         Plotly.newPlot("bar", data,bartitle)
+
+        var bardata = {
+            x: sampleValues2,
+            y: otuIds2,
+            type: "bar",
+            orientation: "h",
+        };
+        var data = [bardata];
+        // var barlayout = { height: 400, margin: { t: 5, b: 0 }};
+        var bartitle={title:"Number of UFO Observations by Shape"};
+        Plotly.newPlot("bar2", data,bartitle)
+
+
 
         //---------------------------------------------------------
         // Building  a bubble chart
         //----------------------------------------------------------//
+
         var firsttrace = {
-            x: otuIds,
-            y: sampleValues,
+            x: otuIds2,
+            y: sampleValues2,
             mode: "markers",
             marker: {
-                size: sampleValues,
-                color: otuIds,
+                size: sampleValues2,
+                color: otuIds2,
                 colorscale: "Earth"
             },
-            text: otuIds
+            text: otuIds2
         };
         var bubdata = [firsttrace];
-        var bublayout = {title: "Bacteria Cultures Per Sample",
+        var bublayout = {title: "Number of obeservations per shape",
         xaxis: {title:"OTU ID"},
             showlegend: false
         };
 
         Plotly.newPlot("bubble", bubdata, bublayout);
 
-        //---------------------------------------------------------------
-        // BUilding a Belly Button
-        //---------------------------------------------------------------//
-        var datagauge = [
-            {
-              domain: { x: [0, 1], y: [0, 1] },
-              value: wash,
-              title: {text: "Belly Button Washing Frequency <br> Scrubs per Week" },
-              type: "indicator",
-              mode: "gauge+number",
-              gauge: {
-                axis: { range: [null, 9] },
-                bar: { color: "red" },
-                steps: [
-                { range: [1, 2], color: "#DDFFBB" },
-                { range: [2, 3], color: "#C7E9B0" },
-                { range: [3, 4], color: "#B3C99C" },
-                { range: [4, 5], color: "#A4BC92" },
-                { range: [5, 6], color: "#57C5B6" },
-                { range: [6, 7], color: "#159895" },
-                { range: [7, 8], color: "#1A5F7A" },
-                { range: [8, 9], color: "#002B5B" }
-                ],
-                threshold: {
-                  line: { color: "black", width: 4 },
-                  thickness: 0.75,
-                  value: wash
-                }
-              }
-            }
-          ];
-          
-          var layout2 = { width: 600, height: 450, margin: { t: 0, b: 0 } };
-          Plotly.newPlot('gauge', datagauge, layout2);
     });
 };
 
