@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>UFO Data Analysis</title>
+    <script src='https://cdn.plot.ly/plotly-2.20.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
 </head>
 <body>
-
     <div class="row">
-
         <div class="container1">
             <img class="bkg" src="https://t3.ftcdn.net/jpg/05/25/05/52/360_F_525055220_AkUXHPPJkQoR3wq3Kv8YOmM3inUIQZTe.jpg" alt="Snow" style="height: 500px; width:100%; opacity:100%;">
             <div class="centered">          
@@ -23,7 +23,7 @@
           <div class="row">
             <div class="col-md-2" style="margin-left: 5%;">
               <div class="well">
-                <h5>Test Subject ID No.:</h5>
+                <h5>UFO Reported Year.:</h5>
                 <select id="selectedDataset" onchange="optionChanged(this.value)"></select>
               </div>
               <div class="panel panel-primary">
@@ -36,8 +36,8 @@
             <div class="col-md-4">
               <div id="bar"></div>
             </div>
-            <div class="col-md-2">
-              <div id="gauge"></div>
+            <div class="col-md-4">
+              <div id="bar2"></div>
             </div>
           </div>
       
@@ -46,7 +46,13 @@
               <div id="bubble"></div>
             </div>
           </div>
-      <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+          <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+          <div id="my_dataviz"></div>
+
+          <script src="map.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/app.js"></script>
 </body>
