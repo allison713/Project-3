@@ -5,13 +5,14 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import psycopg2
 import json
 import  sys
 
 app = Flask(__name__)
 
+#AW
 def get_db_connection():
     #Create an engine for the sql database
     conn_string = "host='localhost' dbname='Project-3' \
@@ -19,8 +20,7 @@ def get_db_connection():
     
     conn = psycopg2.connect(conn_string)
     return conn
-
-
+#AW
 # Flask Routes
 @app.route("/")
 def index():
@@ -33,25 +33,41 @@ def index():
         f"/Ufo_Mapping<br/>"
     )
 
-
-@app.route("/Ufo_Comments")
+#AW
+@app.route("/api/ufo_comments")
 def comments():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT * FROM ufo_comments')
+    cur.execute('SELECT * FROM ufo_comments LIMIT 1000;')
     comments = cur.fetchall()
-    #cur.close()
+    
+    cur.close()
     conn.close()
+    dict_={}
+    list_=[]
     
-    #res_dct = {comments[i]: comments[i + 1] for i in range(0, len(comments)-1)}
-    
-    #return json.dumps(res_dct, default=str, indent=4) 
-    #json.dumps( [dict(x) for x in comments] ) 
-    return json.dumps(comments, default=str, indent=4)
+    for comment in comments:
+        date = comment[1].isoformat()
+        dict_ = {"date": date, "latitude": comment[2], "longitude": comment[3], "comment": comment[4] }
+        list_.append(dict_)
 
+    return jsonify(list_)
+    #return jsonify(list)
+
+#AW
+@app.route("/Ufo_Cleaned")
+def cleaned():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM ufo_sightenings;')
+    ufo = cur.fetchall()
+    cur.close()
+    conn.close()
+    return jsonify(ufo)
+
+#CY
 @app.route("/Ufo_Relatives")
 def relatives():
-    
     relations=['aunts','baby','babies','boyfriend','bride','brothers','cousins','dad','daughters',
             'father','father-in-law','fiancé','friends','girlfriend','grandchild,','grandchildren',
             'granddaughters','grandfather,','grandpa','grandmother','grandma','grandsons','groom',
@@ -64,39 +80,38 @@ def relatives():
     sql_query = pd.read_sql_query ('''SELECT * FROM ufo_comments''',conn)
     df = pd.DataFrame(sql_query, columns = ['comments'])
     conn.close()
-    mentions={relation:"" for relation in relations}
     
+    mentions={relation:"" for relation in relations}
     for relation in relations:
         p = relation + "?"
         mentions[relation]=len(df[df['comments'].str.contains(p)])
 
-    return json.dumps(mentions, default=str, indent=4)
- 
+    return jsonify(mentions)
+
+#CY 
 @app.route("/Ufo_Shapes")
-def cleaned():
+def shapes():
     conn = get_db_connection()
-    
     sql_query = pd.read_sql_query (
             '''SELECT shape, COUNT(shape), date_trunc('year', date_ocurrence) AS year FROM ufo_sightenings GROUP BY shape , year ORDER BY year;''',conn)
+    conn.close()
     shapes_df = pd.DataFrame(sql_query, columns = ['shape', 'count','year'])
-    conn.close()
-    return json.dumps(shapes_df,  default=str)
+
+    dict={}
+    data=[]
+    for index, row in shapes_df.iterrows():
+        dict={"shape":row[0], "count":row[1],"year": row[2].year}
+        data.append(dict)
+
+    return json.dumps(data, default=str)
+   
+@app.route("/Dashboard")
+def dashboard():
+    
+
+    return render_template("index_testClau.html")
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
-"""
 
-@app.route("/ufo_cleaned")
-def cleaned():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM ufo_cleaned;')
-    ufo = cur.fetchall()
-    cur.close()
-    conn.close()
-    return json.dumps(ufo, default=str)
-
-"""
 if __name__ == '__main__':
     app.run(debug=True)
