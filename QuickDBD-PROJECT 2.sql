@@ -4,30 +4,30 @@
 
 -- UFO schema diagram.
 
-CREATE TABLE "ufo_sightenings" (
+CREATE TABLE "ufo_sightnings" (
     "id" INTEGER   NOT NULL,
-    "date_ocurrence" DATE   NOT NULL,
+    "date_ocurrence" VARCHAR  NOT NULL,
     "city" VARCHAR   NOT NULL,
     "state" CHAR(2)   NULL,
     "country" CHAR(2)   NULL,
-    "shape" VARCHAR(10)   NULL,
+    "shape" VARCHAR(15)   NULL,
     "duration_seconds" FLOAT   NULL,
     "duration_hours_min" VARCHAR   NOT NULL,
-    "date_posted" DATE   NOT NULL,
+    "date_posted" VARCHAR   NOT NULL,
     "latitude" FLOAT   NOT NULL,
     "longitude" FLOAT   NOT NULL,
-    CONSTRAINT "pk_UFO_Sightenings" PRIMARY KEY (
+    CONSTRAINT "pk_ufo_sightnings" PRIMARY KEY (
         "id"
      )
 );
 
 CREATE TABLE "ufo_comments" (
     "id" INTEGER   NOT NULL,
-    "date_ocurrence" DATE   NOT NULL,
+    "date_ocurrence" VARCHAR   NOT NULL,
     "latitude" FLOAT   NOT NULL,
     "longitude" FLOAT   NOT NULL,
     "comments" VARCHAR   NULL,
-    CONSTRAINT "pk_UFO_comments" PRIMARY KEY (
+    CONSTRAINT "pk_ufo_comments" PRIMARY KEY (
         "id"
      )
 );
