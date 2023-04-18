@@ -8,17 +8,19 @@ from flask import Flask, jsonify
 import psycopg2
 import psycopg2.extras
 import json
+from flask_cors import CORS
 
 
 #################################################
 # Flask Setup
 #################################################
 app = Flask(__name__)
+CORS(app)
 
 def get_db_connection():
     # Create an engine for the sql database
     conn_string = "host='localhost' dbname='Project-3'\
-        user='postgres' password='postgres'"
+        user='postgres' password='Dee 1s the best'"
     
     conn = psycopg2.connect(conn_string)
     return conn
@@ -50,9 +52,18 @@ def comments():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute('SELECT * FROM ufo_comments;')
     comments = cur.fetchall()
+
+    dict1={}
+    list1=[]
+    
+    for comment in comments:
+        dict1 = {"date": comment[1], "latitude": comment[2], "longitude": comment[3], "comment": comment[4] }
+        list1.append(dict1)
+
     cur.close()
     conn.close()
-    return jsonify(comments)
+    
+    return jsonify(list1)
  
 #route for displaying sighting data
 @app.route("/api/v1.0/ufo_sighting_data")
@@ -61,9 +72,17 @@ def cleaned():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute('SELECT * FROM ufo_sightings;')
     ufo = cur.fetchall()
+    
+    dict1={}
+    list1=[]
+    
+    for sighting in ufo:
+        dict1 = {"date": sighting[1], "city": sighting[2], "state": sighting[3], "country": sighting[4], "shape": sighting[5], "duration_seconds": sighting[6], "duration_hours_min": sighting[7], "date_posted": sighting[8], "latitude": sighting[9], "longitude": sighting[10]}
+        list1.append(dict1)
+
     cur.close()
     conn.close()
-    return jsonify(ufo)
+    return jsonify(list1)
 
 if __name__ == '__main__':
     app.run(debug=True)
