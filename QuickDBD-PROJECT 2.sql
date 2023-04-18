@@ -4,7 +4,7 @@
 
 -- UFO schema diagram.
 
-CREATE TABLE "ufo_sightenings" (
+CREATE TABLE "ufo_sightings" (
     "id" INTEGER   NOT NULL,
     "date_ocurrence" VARCHAR   NOT NULL,
     "city" VARCHAR   NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE "ufo_sightenings" (
     "date_posted" VARCHAR   NOT NULL,
     "latitude" FLOAT   NOT NULL,
     "longitude" FLOAT   NOT NULL,
-    CONSTRAINT "pk_UFO_Sightenings" PRIMARY KEY (
+    CONSTRAINT "pk_ufo_sightings" PRIMARY KEY (
         "id"
      )
 );
