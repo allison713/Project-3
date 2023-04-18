@@ -20,7 +20,7 @@ CORS(app)
 def get_db_connection():
     # Create an engine for the sql database
     conn_string = "host='localhost' dbname='Project-3'\
-        user='postgres' password='Dee 1s the best'"
+        user='postgres' password='your password here'"
     
     conn = psycopg2.connect(conn_string)
     return conn
