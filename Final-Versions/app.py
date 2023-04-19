@@ -9,6 +9,7 @@ import psycopg2
 import psycopg2.extras
 import json
 from flask_cors import CORS
+import os
 
 
 #################################################
@@ -49,6 +50,9 @@ def welcome():
         
         f"<li><a href= 'http://127.0.0.1:5000/api/v1.0/ufo_relatives'>"
         f"JSON list of relatives reported</a></li><br/>"
+        
+        f"<li><a href= 'http://127.0.0.1:5000/api/v1.0/geojson'>"
+        f"GeoJson File</a></li><br/>"
         )
 
 
@@ -122,6 +126,11 @@ def relatives():
         p = relation + "?"
         mentions[relation]=len(df[df['comments'].str.contains(p)])
     return jsonify(mentions)
+
+@app.route("/api/v1.0/geojson")
+def get_json():
+    data = json.load(open('C:\Users\Allison\Downloads\Project-3\static\gz_2010_us_040_00_500k.json'))
+    return(data)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -56,11 +56,12 @@ d3.json(url).then(function (data) {
           });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</br><a href="https://eric.clst.org/tech/usgeojson/">Erictech Geojson</a>'
         }).addTo(myMap);
 
+
         // Load the GeoJSON data.
-        let geoData = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/15-Mapping-Web/ACS-ED_2014-2018_Economic_Characteristics_FL.geojson";
+        let geoData = "static/us-states.json";
 
         let geojson;
 
@@ -83,9 +84,10 @@ d3.json(url).then(function (data) {
                     // Border color
                     color: "#fff",
                     weight: 1,
-                    fillOpacity: 0.8}}).addTo(myMap);
-                });
-            };
+                    fillOpacity: 0.8}
+            }).addTo(myMap);
+        });
+    };
     //add each year to the dropdown.
     var dropDown = d3.select("#selDataset");
     var years = [];
