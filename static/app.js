@@ -47,19 +47,45 @@ d3.json(url).then(function (data) {
           }
 
         Plotly.newPlot("bar", traceData, layout);
-
-
-        //Add map to page
-        let myMap = L.map("map", {
-            center: [45.52, -122.67],
-            zoom: 13
+        
+        //Add map to page 
+        //NOTE CHOROPLETH IS NOT WORKING YET, BUT THE MAP IS THERE.
+        let myMap = L.map("chart-container", {
+            center: [39, -98],
+            zoom: 4
           });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(myMap);
-    };
 
+        // Load the GeoJSON data.
+        let geoData = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/15-Mapping-Web/ACS-ED_2014-2018_Economic_Characteristics_FL.geojson";
+
+        let geojson;
+
+        d3.json(geoData).then(function(data) {
+        // Create a new choropleth layer.
+            geojson = L.choropleth(data, {
+
+                // Define which property in the features to use.
+                valueProperty: "DP03_16E",
+
+                // Set the color scale.
+                scale: ["#ffffb2", "#b10026"],
+
+                // The number of breaks in the step range
+                steps: 10,
+
+                // q for quartile, e for equidistant, k for k-means
+                mode: "q",
+                style: {
+                    // Border color
+                    color: "#fff",
+                    weight: 1,
+                    fillOpacity: 0.8}}).addTo(myMap);
+                });
+            };
     //add each year to the dropdown.
     var dropDown = d3.select("#selDataset");
     var years = [];
