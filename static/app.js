@@ -27,6 +27,11 @@ d3.json(url).then(function (data) {
 
         let trace = {
             x: xChoice,
+            transforms: [{
+                type: 'sort',
+                target: 'y',
+                order: 'descending'
+            }],
             y: stateCounts,
             type: "bar",
             orientation: "v"
@@ -42,6 +47,17 @@ d3.json(url).then(function (data) {
           }
 
         Plotly.newPlot("bar", traceData, layout);
+
+
+        //Add map to page
+        let myMap = L.map("map", {
+            center: [45.52, -122.67],
+            zoom: 13
+          });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(myMap);
     };
 
     //add each year to the dropdown.
@@ -100,6 +116,11 @@ d3.json(url).then(function (data) {
             //update the bar chart
             updateBar = {
                 x: xChoice,
+                transforms: [{
+                    type: 'sort',
+                    target: 'y',
+                    order: 'descending'
+                }],
                 y: stateCounts,
                 type: "bar",
                 orientation: "v"
@@ -116,5 +137,16 @@ d3.json(url).then(function (data) {
             //new graph
             Plotly.newPlot("bar", trace, layout);
         };
+
+    function updateMap() {
+        let myMap = L.map("map", {
+            center: [45.52, -122.67],
+            zoom: 13
+          });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(myMap);
+    }
     init();
     });
