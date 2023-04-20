@@ -36,9 +36,10 @@ html {
 .item2 {
   background-color: rgba(194, 189, 189, 0.8);
   border: 1px solid rgb(98, 98, 98);
-  padding: 20px;
+  padding: 0px;
   font-size: 30px;
   text-align: center;
+  width: 300px;
 }
 .map {
   grid-column-start:2;
@@ -51,6 +52,12 @@ html {
 
 #chart-container {
   height: 450px;
-  grid-column-start:2;
+  grid-column-start:3;
   grid-column-end:4;
+}
+
+#myDivi {
+  height: 450px;
+  grid-column-start:2;
+  grid-column-end:3;
 }
