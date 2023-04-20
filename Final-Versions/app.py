@@ -9,6 +9,7 @@ import psycopg2
 import psycopg2.extras
 import json
 from flask_cors import CORS
+import os
 
 
 #################################################
@@ -20,7 +21,7 @@ CORS(app)
 def get_db_connection():
     # Create an engine for the sql database
     conn_string = "host='localhost' dbname='Project-3'\
-        user='postgres' password='your password here'"
+        user='postgres' password='Dee 1s the best'"
     
     conn = psycopg2.connect(conn_string)
     return conn
@@ -42,7 +43,17 @@ def welcome():
         f"JSON list of real comments by date for the most recent years of the data available</a></li><br/>"
 
         f"<li><a href= 'http://127.0.0.1:5000/api/v1.0/ufo_sighting_data'>"
-        f"JSON list of sighting details by date and with locations</a></li><br/>")
+        f"JSON list of sighting details by date and with locations</a></li><br/>"
+        
+        f"<li><a href= 'http://127.0.0.1:5000/api/v1.0/ufo_shapes'>"
+        f"JSON list of shapes</a></li><br/>"
+        
+        f"<li><a href= 'http://127.0.0.1:5000/api/v1.0/ufo_relatives'>"
+        f"JSON list of relatives reported</a></li><br/>"
+        
+        f"<li><a href= 'http://127.0.0.1:5000/api/v1.0/geojson'>"
+        f"GeoJson File</a></li><br/>"
+        )
 
 
 
@@ -83,6 +94,47 @@ def cleaned():
     cur.close()
     conn.close()
     return jsonify(list1)
+
+@app.route("/api/v1.0/ufo_shapes")
+def shapes():
+    conn = get_db_connection()
+    sql_query = pd.read_sql_query (
+            '''SELECT shape, COUNT(shape), date_trunc('year', date_ocurrence) AS year FROM ufo_sightenings GROUP BY shape , year ORDER BY year;''',conn)
+    conn.close()
+    shapes_df = pd.DataFrame(sql_query, columns = ['shape', 'count','year'])
+    dict={}
+    data=[]
+    for index, row in shapes_df.iterrows():
+        dict={"shape":row[0], "count":row[1],"year": row[2].year}
+        data.append(dict)
+    return json.dumps(data, default=str)
+
+@app.route("/api/v1.0/ufo_relatives")
+def relatives():
+    relations=['aunts','baby','babies','boyfriend','bride','brothers','cousins','dad','daughters',
+            'father','father-in-law','fiancé','friends','girlfriend','grandchild,','grandchildren',
+            'granddaughters','grandfather,','grandpa','grandmother','grandma','grandsons','groom',
+            'husband','mother','mother-in-law','mum,','mummy,','mom','nephews','nieces','parents',
+            'sisters','sons','twins','uncles','wife']
+    mentions=[]
+    conn = get_db_connection()
+    sql_query = pd.read_sql_query ('''SELECT * FROM ufo_comments''',conn)
+    df = pd.DataFrame(sql_query, columns = ['comments'])
+    conn.close()
+    mentions={relation:"" for relation in relations}
+    for relation in relations:
+        p = relation + "?"
+        mentions[relation]=len(df[df['comments'].str.contains(p)])
+    return jsonify(mentions)
+
+# @app.route("/api/v1.0/geojson")
+# def get_json():
+#     return render_template('welcome.html')
+#     if __name__ == '__main__':
+#     app.run()
+#     return send_from_directory('/static', 'demo_data.json')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
