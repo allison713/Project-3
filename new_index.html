@@ -32,19 +32,29 @@
     <div class="grid-container">
         <div class="item1"><h1>UFO Dashboard</h1></div>
         <div class="item2">
-            <p>UFO Reported Year:</p>
-            <select id="selDataset"></select>
-            <p>UFO Shape:</p>
-            <select id="selDataset-2"></select></div>
+            <div id="myDivi"></div>
+        </div>
+        <div class="item3">
+            <div id="myRel"></div>
+            <h5>Project Contributors:</h5>
+            <h6>Allison Wells</h6>
+            <h6>Claudia Yurrita</h6>
+            <h6>Rosanna Reza-Giles</h6>
+            <h6>Alex Delacruz</h6>
+            <br>
+            <h5>Sources</h5>
+            <h6><a href="https://nuforc.org/about-us/">National UFO Reporting Center</a></h6>
+            <h6><a href="https://www.w3schools.com/howto/howto_css_flip_card.asp">W3 Schools Flip Cards</a></h6>
+        </div>
         <div id="questions">
             <div id="question1">
                 <div class="flip-card">
                     <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <p>Question 1</p>
+                        <p>Are there locations where more sightings occur than others?</p>
                     </div>
                     <div class="flip-card-back">
-                        <p>Goes here</p>
+                        <p>Answer here</p>
                     </div>
                     </div>
                 </div>
@@ -53,10 +63,10 @@
                 <div class="flip-card">
                     <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <p>Question 2</p>
+                        <p>Has there been a change in UFO sighting quantities over time?</p>
                     </div>
                     <div class="flip-card-back">
-                        <p>Goes here</p>
+                        <p>Answer here</p>
                     </div>
                     </div>
                 </div>
@@ -65,19 +75,25 @@
                 <div class="flip-card">
                     <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <p>Question 3</p>
+                        <p>Is there a change in the shape classification over time?</p>
                     </div>
                     <div class="flip-card-back">
-                        <p>Goes here</p>
+                        <p>Answer here</p>
                     </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="myDivi"></div>
+        <div id="selection1">
+            <p>UFO Reported Year:</p>
+            <select id="selDataset"></select>
+        </div>
+        <div id="selection2">
+            <p>UFO Shape:</p>
+            <select id="selDataset-2"></select>
+        </div>
         <div id="chart-container"></div>
         <div id="bar"></div>
-        <div id="myRel"></div>
     </div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

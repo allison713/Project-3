@@ -348,10 +348,11 @@ function shapes() {
               }];
               
               var layout = {
-                height: 400,
+                height: 375,
                 width: 500,
                 margin: {"t": 0, "b": 0, "l": 0, "r": 0},
-                showlegend: false
+                showlegend: false,
+                paper_bgcolor:'rgba(0,0,0,0)'
               };
               
               Plotly.newPlot('myDivi', dataPie, layout);
@@ -391,10 +392,11 @@ function relatives() {
         }];
         
         var layout = {
-        height: 400,
+        height: 375,
         width: 500,
         margin: {"t": 0, "b": 0, "l": 0, "r": 0},
             showlegend: false,
+        paper_bgcolor:'rgba(0,0,0,0)'
         };
         
         Plotly.newPlot('myRel', dataPie, layout);

@@ -35,9 +35,23 @@ html {
   background-color: rgba(214, 240, 234, 0.8);
   padding: 0px;
   text-align: center;
-  width: 300px;
+  width: 500px;
+  height:350px;
   grid-row-start:2;
+  grid-row-end:3;
+  grid-column-start:1;
+  grid-column-end:2;
+}
+
+.item3 {
+  background-color: rgba(214, 240, 234, 0.8);
+  text-align: center;
+  width: 500px;
+  grid-row-start:3;
   grid-row-end:6;
+  grid-column-start:1;
+  grid-column-end:2;
+  padding-top:130px;
 }
 
 #bar {
@@ -45,7 +59,6 @@ html {
   grid-column-start:3;
   grid-column-end:4;
   width: 300px;
-  padding-top: 20px;
 }
 
 #chart-container {
@@ -74,7 +87,7 @@ html {
 }
 
 #myRel {
-  height: 450px;
+  height: 400px;
   width: 500px;
   padding-top: 5px;
   grid-row-start:4;
@@ -92,9 +105,9 @@ p {
   grid-row-start:2;
   grid-column-start:2;
   grid-column-end:4;
-  height: 300px;
+  height: 100px;
   width: 1500px;
-  padding-left: 100px;
+  padding-left: 50px;
   background-color: rgba(255, 255, 255, 0.8);
 }
 
@@ -117,6 +130,20 @@ p {
   width: 33.33%;
   float:left;
   margin:0 auto
+}
+
+#selection1 {
+  grid-column-start:2;
+  grid-column-end:3;
+  text-align: center;
+  grid-row-start:3;
+}
+
+#selection2 {
+  grid-column-start:2;
+  grid-column-end:3;
+  text-align: center;
+  grid-row-start:4;
 }
 
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
@@ -157,6 +184,8 @@ p {
 .flip-card-front {
   background-color: #ffffff;
   color: rgba(1, 121, 113, 1);
+  padding-left:10px;
+  padding-right:10px;
   box-shadow: 0 10px 10px rgba(0,0,0,.16);
 }
 
