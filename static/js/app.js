@@ -61,7 +61,7 @@ d3.json(url).then(function (data) {
 
 
         // Load the GeoJSON data.
-        let geoData = "static/us-states.json";
+        let geoData = "gz_2010_us_040_00_500k.json";
 
         let geojson;
 

@@ -127,10 +127,5 @@ def relatives():
         mentions[relation]=len(df[df['comments'].str.contains(p)])
     return jsonify(mentions)
 
-@app.route("/api/v1.0/geojson")
-def get_json():
-    data = json.load(open('C:\Users\Allison\Downloads\Project-3\static\gz_2010_us_040_00_500k.json'))
-    return(data)
-
 if __name__ == '__main__':
     app.run(debug=True)
