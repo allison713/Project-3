@@ -1,5 +1,5 @@
 // json url
-const url = "https://raw.githubusercontent.com/Alejandro-Delacruz/store-all-data-for-p3/main/shape_metadata.json"
+const url = "https://raw.githubusercontent.com/Alejandro-Delacruz/store-all-data-for-p3/main/json_data.json"
 
 // initialize function to pull ID numbers
 function main() {
@@ -14,6 +14,7 @@ function main() {
         demographicInfo(initSample);
         charts(initSample);
     });
+
 };
 
 //--------------------------------------------------------------
@@ -22,8 +23,8 @@ function main() {
 function demographicInfo(sample) {
     var demo = d3.select("#sample-metadata");
     d3.json(url).then(function (data) {
-        var metaData = data.matedata;
-        var metaDataSample = metaData.filter(row => row.id == sample);
+        var metaData = data.metadata;
+        var metaDataSample = metaData.filter(row => row.Year == sample);
         demo.selectAll("p").remove();
         metaDataSample.forEach((row) => {
             for (const [key, value] of Object.entries(row)) {
@@ -49,6 +50,7 @@ function charts(sample) {
         var sampleInfo2 = sampleshape.filter(row => row.id == sample);
         var sampleValues2 = sampleInfo2[0].count;
         var otuIds2 = sampleInfo2[0].state_name;
+
 
         //----------------------------------------------
         // Building a bar chart
@@ -76,29 +78,28 @@ function charts(sample) {
         Plotly.newPlot("bar2", data,bartitle)
 
 
-
         //---------------------------------------------------------
         // Building  a bubble chart
         //----------------------------------------------------------//
 
-        var firsttrace = {
-            x: otuIds2,
-            y: sampleValues2,
-            mode: "markers",
-            marker: {
-                size: sampleValues2,
-                color: otuIds2,
-                colorscale: "Earth"
-            },
-            text: otuIds2
-        };
-        var bubdata = [firsttrace];
-        var bublayout = {title: "Number of obeservations per shape",
-        xaxis: {title:"OTU ID"},
-            showlegend: false
-        };
+        // var firsttrace = {
+        //     x: otuIds2,
+        //     y: sampleValues2,
+        //     mode: "markers",
+        //     marker: {
+        //         size: sampleValues2,
+        //         color: otuIds2,
+        //         colorscale: "Earth"
+        //     },
+        //     text: otuIds2
+        // };
+        // var bubdata = [firsttrace];
+        // var bublayout = {title: "Number of obeservations per shape",
+        // xaxis: {title:"OTU ID"},
+        //     showlegend: false
+        // };
 
-        Plotly.newPlot("bubble", bubdata, bublayout);
+        // Plotly.newPlot("bubble", bubdata, bublayout);
 
     });
 };
@@ -107,6 +108,7 @@ function charts(sample) {
 function optionChanged(sample) {
     demographicInfo(sample);
     charts(sample);
+    
 };
 
 // call main function to run
