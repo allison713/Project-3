@@ -108,6 +108,8 @@ def shapes():
         dict1[figure]=len(df[df['shape'].str.contains(figure)])
     return jsonify(dict1)
 
+
+
 @app.route("/api/v1.0/ufo_relatives")
 def relatives():
     relations=['aunts','baby','babies','boyfriend','bride','brothers','cousins','dad','daughters',
@@ -125,13 +127,6 @@ def relatives():
         p = relation + "?"
         mentions[relation]=len(df[df['comments'].str.contains(p)])
     return jsonify(mentions)
-
-# @app.route("/api/v1.0/geojson")
-# def jsonGet():
-#     filename = os.path.join('static', 'js', 'gz_2010_us_040_00_500k.json')
-#     with open(filename) as test_file:
-#         data = json.load(test_file)
-#     return render_template('new_index.html', data = data)
 
 if __name__ == '__main__':
     app.run(debug=True)
