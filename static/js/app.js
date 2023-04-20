@@ -1,7 +1,6 @@
 // json url
 const url = "http://127.0.0.1:5000/api/v1.0/ufo_sighting_data"
 
-
 d3.json(url).then(function (data) {
 
     function init() {
@@ -48,46 +47,34 @@ d3.json(url).then(function (data) {
 
         Plotly.newPlot("bar", traceData, layout);
         
-        //Add map to page 
-        //NOTE CHOROPLETH IS NOT WORKING YET, BUT THE MAP IS THERE.
-        let myMap = L.map("chart-container", {
-            center: [39, -98],
-            zoom: 4
-          });
+    //     // Load the GeoJSON data.
+    //     let geoData = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json";
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</br><a href="https://eric.clst.org/tech/usgeojson/">Erictech Geojson</a>'
-        }).addTo(myMap);
+    //     let geojson;
 
+    //     d3.json(geoData).then(function(data) {
+    //     // Create a new choropleth layer.
+    //         geojson = L.choropleth(data, {
 
-        // Load the GeoJSON data.
-        let geoData = "gz_2010_us_040_00_500k.json";
+    //             // Define which property in the features to use.
+    //             valueProperty: "density",
 
-        let geojson;
+    //             // Set the color scale.
+    //             scale: ["#ffffb2", "#b10026"],
 
-        d3.json(geoData).then(function(data) {
-        // Create a new choropleth layer.
-            geojson = L.choropleth(data, {
+    //             // The number of breaks in the step range
+    //             steps: 10,
 
-                // Define which property in the features to use.
-                valueProperty: "DP03_16E",
-
-                // Set the color scale.
-                scale: ["#ffffb2", "#b10026"],
-
-                // The number of breaks in the step range
-                steps: 10,
-
-                // q for quartile, e for equidistant, k for k-means
-                mode: "q",
-                style: {
-                    // Border color
-                    color: "#fff",
-                    weight: 1,
-                    fillOpacity: 0.8}
-            }).addTo(myMap);
-        });
-    };
+    //             // q for quartile, e for equidistant, k for k-means
+    //             mode: "q",
+    //             style: {
+    //                 // Border color
+    //                 color: "#fff",
+    //                 weight: 1,
+    //                 fillOpacity: 0.8}
+    //         }).addTo(myMap);
+    //     });
+    // };
     //add each year to the dropdown.
     var dropDown = d3.select("#selDataset");
     var years = [];
@@ -165,16 +152,6 @@ d3.json(url).then(function (data) {
             //new graph
             Plotly.newPlot("bar", trace, layout);
         };
-
-    function updateMap() {
-        let myMap = L.map("map", {
-            center: [45.52, -122.67],
-            zoom: 13
-          });
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(myMap);
     }
     init();
     });

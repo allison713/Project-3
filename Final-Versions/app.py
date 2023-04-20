@@ -4,13 +4,12 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-from flask import Flask, jsonify
+from flask import Flask, render_template, json, current_app as app, jsonify
 import psycopg2
 import psycopg2.extras
 import json
 from flask_cors import CORS
 import os
-
 
 #################################################
 # Flask Setup
@@ -126,6 +125,13 @@ def relatives():
         p = relation + "?"
         mentions[relation]=len(df[df['comments'].str.contains(p)])
     return jsonify(mentions)
+
+# @app.route("/api/v1.0/geojson")
+# def jsonGet():
+#     filename = os.path.join('static', 'js', 'gz_2010_us_040_00_500k.json')
+#     with open(filename) as test_file:
+#         data = json.load(test_file)
+#     return render_template('new_index.html', data = data)
 
 if __name__ == '__main__':
     app.run(debug=True)
