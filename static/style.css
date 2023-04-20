@@ -22,42 +22,148 @@ html {
   background-color: #ffffff;
   padding: 10px;
 }
-.grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgb(255, 255, 255);
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
-}
 .item1 {
+  background-color: rgba(1, 121, 113, 1);
   grid-column-start:1;
   grid-column-end:4;
+  text-align: center;
+  font-family: "Arial Black";
+  color:rgb(255, 255, 255);
+  padding: 10px;
 }
 .item2 {
-  background-color: rgba(194, 189, 189, 0.8);
-  border: 1px solid rgb(98, 98, 98);
+  background-color: rgba(214, 240, 234, 0.8);
   padding: 0px;
-  font-size: 30px;
   text-align: center;
   width: 300px;
+  grid-row-start:2;
+  grid-row-end:6;
 }
-.map {
-  grid-column-start:2;
-  grid-column-end:4;
-}
+
 #bar {
-  grid-column-start:2;
+  grid-row-start:3;
+  grid-column-start:3;
   grid-column-end:4;
+  width: 300px;
+  padding-top: 20px;
 }
 
 #chart-container {
   height: 450px;
   grid-column-start:3;
   grid-column-end:4;
+  grid-row-start:4;
+  padding-top: 10px;
 }
 
 #myDivi {
+  padding-top: 30px;
   height: 450px;
+  width: 500px;
   grid-column-start:2;
   grid-column-end:3;
+  grid-row-start:3;
+  /* box-shadow: 1px 5px 10px 0 rgba(0, 0, 0, 0.2); */
+}
+
+#selDataset,
+#selDataset-2 {
+  padding: 0px;
+  font-size: 20px;
+  text-align: center;
+}
+
+#myRel {
+  height: 450px;
+  width: 500px;
+  padding-top: 5px;
+  grid-row-start:4;
+  grid-column-start:2;
+  grid-column-end:3;
+  /* box-shadow: 1px 5px 10px 0 rgba(0, 0, 0, 0.2); */
+}
+
+p {
+  padding-top: 75px;
+  font-size: 25px;
+}
+
+#questions {
+  grid-row-start:2;
+  grid-column-start:2;
+  grid-column-end:4;
+  height: 300px;
+  width: 1500px;
+  padding-left: 100px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+#question1 {
+  height: 300px;
+  width: 33.33%;
+  float:left;
+  margin:0 auto
+}
+
+#question2 {
+  height: 300px;
+  width: 33.33%;
+  float:left;
+  margin:0 auto
+}
+
+#question3 {
+  height: 300px;
+  width: 33.33%;
+  float:left;
+  margin:0 auto
+}
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  border: 0px solid #ffffff;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  box-shadow: 0 10px 10px rgba(0,0,0,.16);
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #ffffff;
+  color: rgba(1, 121, 113, 1);
+  box-shadow: 0 10px 10px rgba(0,0,0,.16);
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: rgb(3, 57, 54);
+  color: white;
+  transform: rotateY(180deg);
+  box-shadow: 0 10px 10px rgba(0,0,0,.16);
 }

@@ -12,9 +12,13 @@ d3.json(url).then(function (data) {
     '1994', '1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', 
     '2011', '2012', '2013'];
 
-    var ufoShapes = ['cylinder', 'light', 'circle', 'sphere', 'disk', 'fireball', 'other', 'oval', 'cigar', 'rectangle', 'chevron', 'triangle', 
-    'formation', 'not specified', 'delta', 'changing', 'egg', 'diamond', 'flash', 'teardrop', 'cone', 'cross', 'pyramid', 'crescent', 'flare', 
-    'hexagon', 'dome', 'changed'];
+    // var ufoShapes = ['cylinder', 'light', 'circle', 'sphere', 'disk', 'fireball', 'other', 'oval', 'cigar', 'rectangle', 'chevron', 'triangle', 
+    // 'formation', 'not specified', 'delta', 'changing', 'egg', 'diamond', 'flash', 'teardrop', 'cone', 'cross', 'pyramid', 'crescent', 'flare', 
+    // 'hexagon', 'dome', 'changed'];
+
+    var ufoShapes = ['chevron', 'cone', 'cross', 'cylinder', 'diamond', 'disk', 'flash', 
+    'rectangle', 'sphere', 'triangle', 'changing', 'other'] 
+
         // for (let i=0; i<data.length; i++) {
         //     var year = data[i].date.substring(0,4);
         //     if (years.includes(year) === false) {
@@ -31,7 +35,7 @@ d3.json(url).then(function (data) {
             });
 
     function init() {
-        var year = "1949"
+        var year = "2000"
         var filtered = data.filter(row => row.date.substring(0,4) == year);
         var states = [];
 
@@ -66,9 +70,32 @@ d3.json(url).then(function (data) {
         let traceData = [trace];
 
         let layout = {
-            title: `UFO sightings per state in year 1949`,
+            title: {
+                text: `UFO sightings per state in 2000`,
+                font: {
+                    family: 'Verdana',
+                    size: 18
+                }},
+            xaxis: {
+                title: {
+                    text: `State`,
+                    font: {
+                        family: 'Verdana',
+                        size: 16
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: `Number of Reports`,
+                    font: {
+                        family: 'Verdana',
+                        size: 16
+                    }
+                }
+            },
             autosize: false,
-            width: 1100,
+            width: 900,
             height: 450
           }
 
@@ -86,7 +113,7 @@ d3.json(url).then(function (data) {
             }
         };
 
-        console.log(shapes)
+        // console.log(shapes);
 
         //Count all occurences of shapes
         let shapeCounts = [];
@@ -105,7 +132,30 @@ d3.json(url).then(function (data) {
         let traceData1 = [trace1];
 
         let layout1 = {
-            title: `UFO sightings of the shape Cylinder`,
+            title: {
+                text: `UFO sightings of the shape Cylinder`,
+                font: {
+                    family: 'Verdana',
+                    size: 18
+                }},
+            xaxis: {
+                title: {
+                    text: `Year`,
+                    font: {
+                        family: 'Verdana',
+                        size: 16
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: `Number of Reports`,
+                    font: {
+                        family: 'Verdana',
+                        size: 16
+                    }
+                }
+            },
             autosize: false,
             width: 900,
             height: 450
@@ -203,7 +253,7 @@ d3.json(url).then(function (data) {
             let layout = {
                 title: `UFO sightings per state in the year ${year}`,
                 autosize: false,
-                width: 1100,
+                width: 900,
                 height: 450
               }
 
@@ -218,7 +268,24 @@ d3.json(url).then(function (data) {
         // Assign the value of the dropdown menu option to a variable
         let shapeSelect = dropdownMenu.property("value");
 
-        var filteredShape = data.filter(row => row.shape == shapeSelect);
+        // Grouping shapes by major category
+        if (shapeSelect == "sphere") {
+            filteredShape = data.filter(row => row.shape == "sphere" || row.shape == "circle" || row.shape == "fireball" || row.shape == "crescent" ||
+            row.shape == "oval" || row.shape == "egg" || row.shape == "dome" || row.shape == "hexagon");
+            } else if (shapeSelect == "rectangle") {
+            filteredShape = data.filter(row => row.shape == "rectangle" || row.shape == "cigar");
+            } else if (shapeSelect == "cone") {
+            filteredShape = data.filter(row => row.shape == "cone" || row.shape == "teardrop" || row.shape == "pyramid");
+            } else if (shapeSelect == "triangle") {
+            filteredShape = data.filter(row => row.shape == "triangle" || row.shape == "delta");
+            } else if (shapeSelect == "flash") {
+            filteredShape = data.filter(row => row.shape == "flash" || row.shape == "flare" || row.shape == "light");
+            } else if (shapeSelect == "changing") {
+            filteredShape = data.filter(row => row.shape == "changing" || row.shape == "changed");
+            } else if (shapeSelect == "other") {
+            filteredShape = data.filter(row => row.shape == "other" || row.shape == "not specified" || row.shape == "formation");
+            } else {
+            filteredShape = data.filter(row => row.shape == shapeSelect)};
 
         let shapeCounts = [];
 
@@ -248,6 +315,7 @@ d3.json(url).then(function (data) {
     }
     init();
     shapes();
+    relatives();
     });
 
 // json url
@@ -265,13 +333,18 @@ function shapes() {
             // console.log(observations);
                                   
             let dataPie=[{
-                title: "SHAPES OBSERVED DURING THE YEARS",
+                title: {
+                    text: `Distribution of Shape Observations`,
+                    font: {
+                        family: 'Verdana',
+                        size: 18
+                    },
+                    automargin: true},
                 values: observations,
                 labels: figures,
                 hoverinfo:'label+percent',
                 type: 'pie',
                 textposition:'inside'
-                
               }];
               
               var layout = {
@@ -284,3 +357,47 @@ function shapes() {
               Plotly.newPlot('myDivi', dataPie, layout);
               
             })};
+
+
+const urlRelatives = "http://127.0.0.1:5000/api/v1.0/ufo_relatives"
+
+// Function to graph relatives
+function relatives() {
+        
+    // retrieve JSON data
+
+    d3.json(urlRelatives).then(function (data) {
+        //Fetch keys and values
+        let figures=Object.keys(data);
+        let observations=Object.values(data);
+        
+        console.log(figures);   
+        console.log(observations);
+
+        let dataPie=[{
+            title: {
+                text: `Relatives Mentioned`,
+                font: {
+                    family: 'Verdana',
+                    size: 15
+                },
+                automargin: true},
+            labels: figures,
+            values: observations,
+            hoverinfo:'label + percent',
+            type: 'pie',
+            textposition:'inside',
+            hole:0.4
+        }];
+        
+        var layout = {
+        height: 400,
+        width: 500,
+        margin: {"t": 0, "b": 0, "l": 0, "r": 0},
+            showlegend: false,
+        };
+        
+        Plotly.newPlot('myRel', dataPie, layout);
+    }
+)};            
+
