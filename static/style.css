@@ -115,7 +115,7 @@ p {
   height: 300px;
   width: 33.33%;
   float:left;
-  margin:0 auto
+  margin:0 auto;
 }
 
 #question2 {
@@ -191,8 +191,10 @@ p {
 
 /* Style the back side */
 .flip-card-back {
+  margin: auto;
   background-color: rgb(3, 57, 54);
   color: white;
+  font-size : 10px;
   transform: rotateY(180deg);
   box-shadow: 0 10px 10px rgba(0,0,0,.16);
 }
