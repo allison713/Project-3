@@ -108,30 +108,34 @@ def shapes():
         dict1[figure]=len(df[df['shape'].str.contains(figure)])
     return jsonify(dict1)
 
+
+
 @app.route("/api/v1.0/ufo_relatives")
 def relatives():
-    relations=['aunts','baby','babies','boyfriend','bride','brothers','cousins','dad','daughters',
-            'father','father-in-law','fiancé','friends','girlfriend','grandchild,','grandchildren',
-            'granddaughters','grandfather,','grandpa','grandmother','grandma','grandsons','groom',
-            'husband','mother','mother-in-law','mum,','mummy,','mom','nephews','nieces','parents',
-            'sisters','sons','twins','uncles','wife']
-    mentions=[]
+    group_rel=['aunts','brothers','cousins','daughters','friends','granddaughters','grandsons','nephews','nieces','parents','sisters',
+               'sons','twins','uncles']
+    ind_rel=['baby','babies','boyfriend','bride','dad','father','father-in-law','fiancé','girlfriend','grandchild,','grandchildren',
+                  'grandfather,','grandpa','grandmother','grandma','groom','husband','mother','mother-in-law','mum,','mummy,','mom','wife']
     conn = get_db_connection()
+    
     sql_query = pd.read_sql_query ('''SELECT * FROM ufo_comments''',conn)
     df = pd.DataFrame(sql_query, columns = ['comments'])
     conn.close()
-    mentions={relation:"" for relation in relations}
-    for relation in relations:
-        p = relation + "?"
-        mentions[relation]=len(df[df['comments'].str.contains(p)])
-    return jsonify(mentions)
+    
+    groups={group:"" for group in group_rel}
+    inds={individual:"" for individual in ind_rel}
 
-# @app.route("/api/v1.0/geojson")
-# def jsonGet():
-#     filename = os.path.join('static', 'js', 'gz_2010_us_040_00_500k.json')
-#     with open(filename) as test_file:
-#         data = json.load(test_file)
-#     return render_template('new_index.html', data = data)
+    for group in group_rel:
+        p = group + "?"
+        groups[group]=len(df[df['comments'].str.contains(p)])
+    
+    for individual in ind_rel:
+        inds[individual]=len(df[df['comments'].str.contains(individual)])
+    
+    
+    groups.update(inds)
+    
+    return jsonify(groups)
 
 if __name__ == '__main__':
     app.run(debug=True)
