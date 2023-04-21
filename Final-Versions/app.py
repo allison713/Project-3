@@ -20,7 +20,8 @@ CORS(app)
 def get_db_connection():
     # Create an engine for the sql database
     conn_string = "host='localhost' dbname='Project-3'\
-        user='postgres' password='Dee 1s the best'"
+        user='postgres' password='postgres'"
+
     
     conn = psycopg2.connect(conn_string)
     return conn
@@ -77,7 +78,7 @@ def comments():
 def cleaned():
     conn = get_db_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute('SELECT * FROM ufo_sightings;')
+    cur.execute('SELECT * FROM ufo_sightnings;')
     ufo = cur.fetchall()
     
     dict1={}
